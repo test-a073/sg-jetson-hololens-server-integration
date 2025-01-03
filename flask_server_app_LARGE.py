@@ -12,9 +12,13 @@ app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 def convert_response_to_dict(response):
     # Assuming the response has a 'message' and 'status' attribute
     # Modify this based on the actual structure of the response object
+    response_dict = dict(response)
+
+    print(response_dict)
+    message_content = dict(response_dict['message'])['content']
     return {
-        "message": response.get('message', ''),
-        "status": response.get('status', '200'),
+        "model": response_dict['model'],
+        "message": message_content,
         # Add other relevant attributes here as necessary
     }
 
@@ -45,17 +49,16 @@ def query():
             }]
         )
 
-        # print(type(response))
-        # print()
-        # print(response)
 
         # Convert the response to a dictionary
         response_dict = convert_response_to_dict(response)
-        # print(response_dict)
 
-        print(response_dict)
-        # Clean up the temporary image file
-        # os.remove(image_path)
+        # Remove the temporary image file
+        os.remove(image_path)
+
+        # DEBUG : Uncomment the line below to see the response dictionary
+        # print(response_dict)
+        
 
         # Return the response
         return jsonify({'response': response_dict}), 200
