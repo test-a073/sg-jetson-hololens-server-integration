@@ -1,8 +1,9 @@
 # NOTE: for the moment we are using moondream 1.8B params model. Later we will use 0.5B params model.
 model_type = "1.8B" # 0.5B or 2B
 
+import torch.cuda
 import os
-os.chdir("/home/Desktop/integration/inference_code/")
+os.chdir("/home/integration/inference_code/")
 print("Current Working Directory:", os.getcwd())
 
 
@@ -77,7 +78,7 @@ if moondream_response is not None:
 import time
 import requests
 
-server_url = "http://172.17.0.2:5000/query" # Docker container internal ip address
+server_url = "http://172.17.0.3:5000/query" # Docker container internal ip address
 image_path = image_path 
 query_text = query_text
 
@@ -138,7 +139,7 @@ GRAD_ACCUM_STEPS = 1
 LR = 1e-5
 
 # Whether to use Weights and Biases for logging training metrics.
-USE_WANDB = False
+USE_WANDB = True
 
 
 # MAX Data samples

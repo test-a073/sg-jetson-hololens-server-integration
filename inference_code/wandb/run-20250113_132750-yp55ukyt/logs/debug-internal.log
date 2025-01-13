@@ -1,0 +1,15 @@
+{"time":"2025-01-13T13:27:51.190911148Z","level":"INFO","msg":"stream: starting","core version":"0.19.2","symlink path":"/home/Desktop/integration/inference_code/wandb/run-20250113_132750-yp55ukyt/logs/debug-core.log"}
+{"time":"2025-01-13T13:27:51.292514554Z","level":"INFO","msg":"created new stream","id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:51.292534123Z","level":"INFO","msg":"stream: started","id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:51.292591218Z","level":"INFO","msg":"writer: Do: started","stream_id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:51.292630405Z","level":"INFO","msg":"sender: started","stream_id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:51.292656411Z","level":"INFO","msg":"handler: started","stream_id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:51.583483348Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-13T13:27:55.583771667Z","level":"INFO","msg":"stream: closing","id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:55.583781045Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-13T13:27:55.58418007Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-13T13:27:57.113224424Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-13T13:27:57.373641423Z","level":"INFO","msg":"handler: closed","stream_id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:57.373650755Z","level":"INFO","msg":"writer: Close: closed","stream_id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:57.373679117Z","level":"INFO","msg":"sender: closed","stream_id":"yp55ukyt"}
+{"time":"2025-01-13T13:27:57.3736886Z","level":"INFO","msg":"stream: closed","id":"yp55ukyt"}

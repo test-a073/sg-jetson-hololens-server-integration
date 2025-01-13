@@ -1,0 +1,17 @@
+{"time":"2025-01-13T13:36:39.492118555Z","level":"INFO","msg":"stream: starting","core version":"0.19.2","symlink path":"/home/Desktop/integration/workstation_server/wandb/run-20250113_133639-lt2kk3w6/logs/debug-core.log"}
+{"time":"2025-01-13T13:36:39.593444267Z","level":"INFO","msg":"created new stream","id":"lt2kk3w6"}
+{"time":"2025-01-13T13:36:39.593457374Z","level":"INFO","msg":"stream: started","id":"lt2kk3w6"}
+{"time":"2025-01-13T13:36:39.593536803Z","level":"INFO","msg":"writer: Do: started","stream_id":"lt2kk3w6"}
+{"time":"2025-01-13T13:36:39.59357776Z","level":"INFO","msg":"sender: started","stream_id":"lt2kk3w6"}
+{"time":"2025-01-13T13:36:39.593609621Z","level":"INFO","msg":"handler: started","stream_id":"lt2kk3w6"}
+{"time":"2025-01-13T13:36:39.92404346Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-13T13:45:27.030937392Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-13T13:45:27.031255063Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-13T13:45:28.031332773Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading output.log","runtime_seconds":0.478773706,"progress":"2.2KB/2.2KB"},{"desc":"uploading wandb-summary.json","runtime_seconds":0.478769104,"progress":"26B/26B"},{"desc":"uploading config.yaml","runtime_seconds":0.230073843,"progress":"731B/731B"}],"total_operations":3}}
+{"time":"2025-01-13T13:45:28.852368717Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-13T13:45:29.2321891Z","level":"INFO","msg":"stream: closing","id":"lt2kk3w6"}
+{"time":"2025-01-13T13:45:29.232203914Z","level":"INFO","msg":"handler: closed","stream_id":"lt2kk3w6"}
+{"time":"2025-01-13T13:45:29.232233676Z","level":"INFO","msg":"writer: Close: closed","stream_id":"lt2kk3w6"}
+{"time":"2025-01-13T13:45:29.232249273Z","level":"WARN","msg":"sender: received Exit record more than once, ignoring"}
+{"time":"2025-01-13T13:45:29.232252096Z","level":"INFO","msg":"sender: closed","stream_id":"lt2kk3w6"}
+{"time":"2025-01-13T13:45:29.232255081Z","level":"INFO","msg":"stream: closed","id":"lt2kk3w6"}

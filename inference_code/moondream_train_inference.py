@@ -2,7 +2,7 @@
 model_type = "1.8B" # 0.5B or 2B
 
 import os
-os.chdir("/home/Desktop/integration/inference_code/")
+os.chdir("/home/integration/inference_code/")
 print("Current Working Directory:", os.getcwd())
 
 
@@ -77,7 +77,7 @@ if moondream_response is not None:
 import time
 import requests
 
-server_url = "http://172.17.0.2:5000/query" # Docker container internal ip address
+server_url = "http://172.17.0.3:5000/query" # Docker container internal ip address
 image_path = image_path 
 query_text = query_text
 
