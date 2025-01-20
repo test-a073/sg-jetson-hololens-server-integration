@@ -1,0 +1,141 @@
+2025-01-13 14:01:02,166 - __main__ - INFO - Initializing model...
+2025-01-13 14:01:02,167 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-01-13 14:01:02,891 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/tokenizer_config.json HTTP/11" 200 0
+2025-01-13 14:01:03,282 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/config.json HTTP/11" 200 0
+2025-01-13 14:01:03,636 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/configuration_moondream.py HTTP/11" 200 0
+2025-01-13 14:01:04,010 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/moondream.py HTTP/11" 200 0
+PhiForCausalLM has generative capabilities, as `prepare_inputs_for_generation` is explicitly overwritten. However, it doesn't directly inherit from `GenerationMixin`. From 👉v4.50👈 onwards, `PreTrainedModel` will NOT inherit from `GenerationMixin`, and this model will lose the ability to call `generate` and other related functions.
+  - If you're using `trust_remote_code=True`, you can get rid of this warning by loading the model with an auto class. See https://huggingface.co/docs/transformers/en/model_doc/auto#auto-classes
+  - If you are the owner of the model architecture code, please modify your model class such that it inherits from `GenerationMixin` (after `PreTrainedModel`, otherwise you'll get an exception).
+  - If you are not the owner of the model architecture class, please contact the model code owner to update it.
+2025-01-13 14:01:05,009 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/generation_config.json HTTP/11" 200 0
+ * Serving Flask app 'flask_server_app_LARGE_Moondream'
+ * Debug mode: off
+2025-01-13 14:01:05,016 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5000
+ * Running on http://172.17.0.2:5000
+2025-01-13 14:01:05,016 - werkzeug - INFO - [33mPress CTRL+C to quit[0m
+2025-01-13 14:01:10,490 - __main__ - DEBUG - Received request: ImmutableMultiDict([('query', 'where is the phone')])
+2025-01-13 14:01:10,490 - __main__ - DEBUG - Files in request: ImmutableMultiDict([('image', <FileStorage: 'sample.jpg' (None)>)])
+2025-01-13 14:01:10,491 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=11434 local_address=None timeout=None socket_options=None
+2025-01-13 14:01:10,491 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x79d22406c650>
+2025-01-13 14:01:10,491 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2025-01-13 14:01:10,491 - httpcore.http11 - DEBUG - send_request_headers.complete
+2025-01-13 14:01:10,491 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2025-01-13 14:01:10,492 - httpcore.http11 - DEBUG - send_request_body.complete
+2025-01-13 14:01:10,492 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2025-01-13 14:01:13,775 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Date', b'Mon, 13 Jan 2025 14:01:13 GMT'), (b'Content-Length', b'362')])
+2025-01-13 14:01:13,775 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2025-01-13 14:01:13,775 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2025-01-13 14:01:13,775 - httpcore.http11 - DEBUG - receive_response_body.complete
+2025-01-13 14:01:13,776 - httpcore.http11 - DEBUG - response_closed.started
+2025-01-13 14:01:13,776 - httpcore.http11 - DEBUG - response_closed.complete
+2025-01-13 14:01:13,776 - __main__ - DEBUG - Full response: {'model': 'llama3.2-vision', 'created_at': '2025-01-13T14:01:13.775113948Z', 'done': True, 'done_reason': 'stop', 'total_duration': 3283172302, 'load_duration': 1616803705, 'prompt_eval_count': 16, 'prompt_eval_duration': 1402000000, 'eval_count': 14, 'eval_duration': 180000000, 'message': Message(role='assistant', content='The phone is on the desk, between the keyboard and laptop.', images=None, tool_calls=None)}
+The attention mask is not set and cannot be inferred from input because pad token is same as eos token. As a consequence, you may observe unexpected behavior. Please pass your input's `attention_mask` to obtain reliable results.
+The `seen_tokens` attribute is deprecated and will be removed in v4.41. Use the `cache_position` model input instead.
+`get_max_cache()` is deprecated for all Cache classes. Use `get_max_cache_shape()` instead. Calling `get_max_cache()` will raise error from v4.48
+
+{'time': '20250113-140113', 'text': 'where is the phone', 'image': <PIL.JpegImagePlugin.JpegImageFile image mode=RGB size=760x428 at 0x79D22406D0D0>, 'image_name': 'sample.jpg_20250113-140113', 'qa': [{'question': 'where is the phone', 'answer': 'The phone is on the desk, between the keyboard and laptop.'}], 'moondream': 'On the desk', 'llama-vision': 'The phone is on the desk, between the keyboard and laptop.'}
+
+ start finetuning the model
+2025-01-13 14:01:14,054 - transformers_modules.vikhyatk.moondream2.79671eae7b5340017e91065d09c1ce1a352c0e8d.modeling_phi - WARNING - `use_cache=True` is incompatible with gradient checkpointing. Setting `use_cache=False`...
+Cleaning up...
+2025-01-13 14:01:17,510 - werkzeug - INFO - 10.4.8.31 - - [13/Jan/2025 14:01:17] "POST /query HTTP/1.1" 200 -
+2025-01-13 14:04:38,154 - __main__ - DEBUG - Received request: ImmutableMultiDict([('query', 'where is the phone')])
+2025-01-13 14:04:38,154 - __main__ - DEBUG - Files in request: ImmutableMultiDict([('image', <FileStorage: 'sample.jpg' (None)>)])
+2025-01-13 14:04:38,155 - httpcore.connection - DEBUG - close.started
+2025-01-13 14:04:38,155 - httpcore.connection - DEBUG - close.complete
+2025-01-13 14:04:38,155 - httpcore.connection - DEBUG - connect_tcp.started host='127.0.0.1' port=11434 local_address=None timeout=None socket_options=None
+2025-01-13 14:04:38,155 - httpcore.connection - DEBUG - connect_tcp.complete return_value=<httpcore._backends.sync.SyncStream object at 0x79d1e8ed9010>
+2025-01-13 14:04:38,155 - httpcore.http11 - DEBUG - send_request_headers.started request=<Request [b'POST']>
+2025-01-13 14:04:38,155 - httpcore.http11 - DEBUG - send_request_headers.complete
+2025-01-13 14:04:38,155 - httpcore.http11 - DEBUG - send_request_body.started request=<Request [b'POST']>
+2025-01-13 14:04:38,155 - httpcore.http11 - DEBUG - send_request_body.complete
+2025-01-13 14:04:38,155 - httpcore.http11 - DEBUG - receive_response_headers.started request=<Request [b'POST']>
+2025-01-13 14:04:38,444 - httpcore.http11 - DEBUG - receive_response_headers.complete return_value=(b'HTTP/1.1', 200, b'OK', [(b'Content-Type', b'application/json; charset=utf-8'), (b'Date', b'Mon, 13 Jan 2025 14:04:38 GMT'), (b'Content-Length', b'350')])
+2025-01-13 14:04:38,444 - httpx - INFO - HTTP Request: POST http://127.0.0.1:11434/api/chat "HTTP/1.1 200 OK"
+2025-01-13 14:04:38,444 - httpcore.http11 - DEBUG - receive_response_body.started request=<Request [b'POST']>
+2025-01-13 14:04:38,444 - httpcore.http11 - DEBUG - receive_response_body.complete
+2025-01-13 14:04:38,444 - httpcore.http11 - DEBUG - response_closed.started
+2025-01-13 14:04:38,444 - httpcore.http11 - DEBUG - response_closed.complete
+2025-01-13 14:04:38,444 - __main__ - DEBUG - Full response: {'model': 'llama3.2-vision', 'created_at': '2025-01-13T14:04:38.443844166Z', 'done': True, 'done_reason': 'stop', 'total_duration': 288039857, 'load_duration': 10099532, 'prompt_eval_count': 16, 'prompt_eval_duration': 29000000, 'eval_count': 14, 'eval_duration': 169000000, 'message': Message(role='assistant', content='The phone is on the desk, in front of the keyboard.', images=None, tool_calls=None)}
+/opt/conda/lib/python3.11/site-packages/torch/utils/checkpoint.py:87: UserWarning: None of the inputs have requires_grad=True. Gradients will be None
+  warnings.warn(
+2025-01-13 14:04:38,504 - __main__ - ERROR - Error in query_moondream: Sizes of tensors must match except in dimension 3. Expected size 743 but got size 1 for tensor number 1 in the list.
+2025-01-13 14:04:38,504 - __main__ - ERROR - Error in query endpoint: Sizes of tensors must match except in dimension 3. Expected size 743 but got size 1 for tensor number 1 in the list.
+Traceback (most recent call last):
+  File "/home/Desktop/integration/workstation_server/flask_server_app_LARGE_Moondream.py", line 237, in query
+    moondream_response = query_moondream(moondream, tokenizer, queries)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/home/Desktop/integration/workstation_server/flask_server_app_LARGE_Moondream.py", line 154, in query_moondream
+    return model.answer_question(
+           ^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/huggingface/modules/transformers_modules/vikhyatk/moondream2/79671eae7b5340017e91065d09c1ce1a352c0e8d/moondream.py", line 99, in answer_question
+    answer = self.generate(
+             ^^^^^^^^^^^^^^
+  File "/root/.cache/huggingface/modules/transformers_modules/vikhyatk/moondream2/79671eae7b5340017e91065d09c1ce1a352c0e8d/moondream.py", line 83, in generate
+    output_ids = self.text_model.generate(
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/_contextlib.py", line 116, in decorate_context
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/transformers/generation/utils.py", line 2255, in generate
+    result = self._sample(
+             ^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/transformers/generation/utils.py", line 3257, in _sample
+    outputs = model_forward(**model_inputs, return_dict=True)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/huggingface/modules/transformers_modules/vikhyatk/moondream2/79671eae7b5340017e91065d09c1ce1a352c0e8d/modeling_phi.py", line 1051, in forward
+    outputs = self.transformer(
+              ^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/huggingface/modules/transformers_modules/vikhyatk/moondream2/79671eae7b5340017e91065d09c1ce1a352c0e8d/modeling_phi.py", line 897, in forward
+    layer_outputs = self._gradient_checkpointing_func(
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/_compile.py", line 32, in inner
+    return disable_fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/_dynamo/eval_frame.py", line 632, in _fn
+    return fn(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/checkpoint.py", line 489, in checkpoint
+    return CheckpointFunction.apply(function, preserve, *args)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/autograd/function.py", line 575, in apply
+    return super().apply(*args, **kwargs)  # type: ignore[misc]
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/utils/checkpoint.py", line 264, in forward
+    outputs = run_function(*args)
+              ^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/huggingface/modules/transformers_modules/vikhyatk/moondream2/79671eae7b5340017e91065d09c1ce1a352c0e8d/modeling_phi.py", line 710, in forward
+    attn_outputs, self_attn_weights, present_key_value = self.mixer(
+                                                         ^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1736, in _wrapped_call_impl
+    return self._call_impl(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/opt/conda/lib/python3.11/site-packages/torch/nn/modules/module.py", line 1747, in _call_impl
+    return forward_call(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.cache/huggingface/modules/transformers_modules/vikhyatk/moondream2/79671eae7b5340017e91065d09c1ce1a352c0e8d/modeling_phi.py", line 368, in forward
+    query_states = torch.cat((query_rot, query_pass), dim=-1)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: Sizes of tensors must match except in dimension 3. Expected size 743 but got size 1 for tensor number 1 in the list.
+2025-01-13 14:04:38,506 - werkzeug - INFO - 10.4.8.31 - - [13/Jan/2025 14:04:38] "[35m[1mPOST /query HTTP/1.1[0m" 500 -

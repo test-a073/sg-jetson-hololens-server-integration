@@ -1,0 +1,16 @@
+{"time":"2025-01-13T13:50:00.59711222Z","level":"INFO","msg":"stream: starting","core version":"0.19.2","symlink path":"/home/Desktop/integration/workstation_server/wandb/run-20250113_135000-rva1xiie/logs/debug-core.log"}
+{"time":"2025-01-13T13:50:00.698723753Z","level":"INFO","msg":"created new stream","id":"rva1xiie"}
+{"time":"2025-01-13T13:50:00.698733004Z","level":"INFO","msg":"stream: started","id":"rva1xiie"}
+{"time":"2025-01-13T13:50:00.698783364Z","level":"INFO","msg":"writer: Do: started","stream_id":"rva1xiie"}
+{"time":"2025-01-13T13:50:00.698825435Z","level":"INFO","msg":"sender: started","stream_id":"rva1xiie"}
+{"time":"2025-01-13T13:50:00.698844297Z","level":"INFO","msg":"handler: started","stream_id":"rva1xiie"}
+{"time":"2025-01-13T13:50:01.07242838Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-13T13:50:26.229606668Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-13T13:50:26.229922511Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-13T13:50:27.229924577Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading output.log","runtime_seconds":0.729512602,"progress":"2.2KB/2.2KB"},{"desc":"uploading config.yaml","runtime_seconds":0.485902265,"progress":"731B/731B"}],"total_operations":2}}
+{"time":"2025-01-13T13:50:27.749463074Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-13T13:50:29.058596704Z","level":"INFO","msg":"stream: closing","id":"rva1xiie"}
+{"time":"2025-01-13T13:50:29.058603402Z","level":"INFO","msg":"handler: closed","stream_id":"rva1xiie"}
+{"time":"2025-01-13T13:50:29.058607123Z","level":"INFO","msg":"writer: Close: closed","stream_id":"rva1xiie"}
+{"time":"2025-01-13T13:50:29.058623622Z","level":"INFO","msg":"sender: closed","stream_id":"rva1xiie"}
+{"time":"2025-01-13T13:50:29.058641684Z","level":"INFO","msg":"stream: closed","id":"rva1xiie"}

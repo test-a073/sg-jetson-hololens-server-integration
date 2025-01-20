@@ -1,0 +1,18 @@
+2025-01-13 13:45:35,384 - __main__ - INFO - Initializing model...
+2025-01-13 13:45:35,385 - urllib3.connectionpool - DEBUG - Starting new HTTPS connection (1): huggingface.co:443
+2025-01-13 13:45:35,648 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/tokenizer_config.json HTTP/11" 200 0
+2025-01-13 13:45:35,979 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/config.json HTTP/11" 200 0
+2025-01-13 13:45:36,436 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/configuration_moondream.py HTTP/11" 200 0
+2025-01-13 13:45:36,822 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/moondream.py HTTP/11" 200 0
+PhiForCausalLM has generative capabilities, as `prepare_inputs_for_generation` is explicitly overwritten. However, it doesn't directly inherit from `GenerationMixin`. From 👉v4.50👈 onwards, `PreTrainedModel` will NOT inherit from `GenerationMixin`, and this model will lose the ability to call `generate` and other related functions.
+  - If you're using `trust_remote_code=True`, you can get rid of this warning by loading the model with an auto class. See https://huggingface.co/docs/transformers/en/model_doc/auto#auto-classes
+  - If you are the owner of the model architecture code, please modify your model class such that it inherits from `GenerationMixin` (after `PreTrainedModel`, otherwise you'll get an exception).
+  - If you are not the owner of the model architecture class, please contact the model code owner to update it.
+2025-01-13 13:45:37,705 - urllib3.connectionpool - DEBUG - https://huggingface.co:443 "HEAD /vikhyatk/moondream2/resolve/2024-07-23/generation_config.json HTTP/11" 200 0
+ * Serving Flask app 'flask_server_app_LARGE_Moondream'
+ * Debug mode: off
+2025-01-13 13:45:37,712 - werkzeug - INFO - [31m[1mWARNING: This is a development server. Do not use it in a production deployment. Use a production WSGI server instead.[0m
+ * Running on all addresses (0.0.0.0)
+ * Running on http://127.0.0.1:5001
+ * Running on http://172.17.0.3:5001
+2025-01-13 13:45:37,712 - werkzeug - INFO - [33mPress CTRL+C to quit[0m

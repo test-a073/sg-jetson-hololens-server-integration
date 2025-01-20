@@ -1,0 +1,11 @@
+{"time":"2025-01-13T13:50:42.710232697Z","level":"INFO","msg":"stream: starting","core version":"0.19.2","symlink path":"/home/Desktop/integration/workstation_server/wandb/run-20250113_135042-1lb7pijq/logs/debug-core.log"}
+{"time":"2025-01-13T13:50:42.811784791Z","level":"INFO","msg":"created new stream","id":"1lb7pijq"}
+{"time":"2025-01-13T13:50:42.811796004Z","level":"INFO","msg":"stream: started","id":"1lb7pijq"}
+{"time":"2025-01-13T13:50:42.8118057Z","level":"INFO","msg":"writer: Do: started","stream_id":"1lb7pijq"}
+{"time":"2025-01-13T13:50:42.811852617Z","level":"INFO","msg":"sender: started","stream_id":"1lb7pijq"}
+{"time":"2025-01-13T13:50:42.811873411Z","level":"INFO","msg":"handler: started","stream_id":"1lb7pijq"}
+{"time":"2025-01-13T13:50:43.105746474Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-13T13:53:01.550018091Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-13T13:53:01.550495339Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-13T13:53:02.037754408Z","level":"INFO","msg":"stream: closing","id":"1lb7pijq"}
+{"time":"2025-01-13T13:53:02.037766363Z","level":"WARN","msg":"sender: received Exit record more than once, ignoring"}

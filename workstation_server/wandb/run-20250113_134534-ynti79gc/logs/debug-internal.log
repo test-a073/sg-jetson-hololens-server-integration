@@ -1,0 +1,17 @@
+{"time":"2025-01-13T13:45:34.941778939Z","level":"INFO","msg":"stream: starting","core version":"0.19.2","symlink path":"/home/Desktop/integration/workstation_server/wandb/run-20250113_134534-ynti79gc/logs/debug-core.log"}
+{"time":"2025-01-13T13:45:35.043260835Z","level":"INFO","msg":"created new stream","id":"ynti79gc"}
+{"time":"2025-01-13T13:45:35.043271285Z","level":"INFO","msg":"stream: started","id":"ynti79gc"}
+{"time":"2025-01-13T13:45:35.043316151Z","level":"INFO","msg":"writer: Do: started","stream_id":"ynti79gc"}
+{"time":"2025-01-13T13:45:35.043342797Z","level":"INFO","msg":"sender: started","stream_id":"ynti79gc"}
+{"time":"2025-01-13T13:45:35.043365377Z","level":"INFO","msg":"handler: started","stream_id":"ynti79gc"}
+{"time":"2025-01-13T13:45:35.345753826Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-13T13:47:35.367040867Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-13T13:47:35.367432045Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-13T13:47:36.367333666Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading wandb-summary.json","runtime_seconds":0.501387806,"progress":"26B/26B"},{"desc":"uploading summary","runtime_seconds":0.439362119},{"desc":"uploading config.yaml","runtime_seconds":0.260138198,"progress":"731B/731B"}],"total_operations":3}}
+{"time":"2025-01-13T13:47:36.931292538Z","level":"INFO","msg":"stream: closing","id":"ynti79gc"}
+{"time":"2025-01-13T13:47:36.931310384Z","level":"WARN","msg":"sender: received Exit record more than once, ignoring"}
+{"time":"2025-01-13T13:47:37.135197974Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-13T13:47:37.385982326Z","level":"INFO","msg":"handler: closed","stream_id":"ynti79gc"}
+{"time":"2025-01-13T13:47:37.385989728Z","level":"INFO","msg":"writer: Close: closed","stream_id":"ynti79gc"}
+{"time":"2025-01-13T13:47:37.386017772Z","level":"INFO","msg":"sender: closed","stream_id":"ynti79gc"}
+{"time":"2025-01-13T13:47:37.386021236Z","level":"INFO","msg":"stream: closed","id":"ynti79gc"}
