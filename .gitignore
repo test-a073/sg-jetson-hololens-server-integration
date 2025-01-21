@@ -2,3 +2,4 @@ sasika/*
 inference_code/data2/*
 checkpoints/*
 checkpoints
+/home/sasikayw/Desktop/integration/test/moondream_finetune_with_lora/wandb/*
