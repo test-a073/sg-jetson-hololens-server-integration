@@ -1,0 +1,289 @@
+import os
+import torch
+import math
+import wandb
+import getpass
+from tqdm import tqdm
+from einops import rearrange
+from torch.utils.data import Dataset, DataLoader
+from datasets import load_dataset
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import LoraConfig, get_peft_model, get_peft_model_state_dict
+
+# Training Configuration
+DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
+DTYPE = torch.quint8  # Changed to float8 e4m3 format
+MD_REVISION = "2024-04-02"
+use_lora = True
+set_other_trainable = True
+
+EPOCHS = 10
+BATCH_SIZE = 4
+GRAD_ACCUM_STEPS = 1
+BASE_LR = 3e-5
+WARMUP_STEPS = 100
+MAX_GRAD_NORM = 1.0
+SAVE_STEPS = 500
+USE_WANDB = True
+CHECKPOINT_DIR = "checkpoints"
+IMG_TOKENS = 729
+ANSWER_EOS = "<|endoftext|>"
+
+print(f"Using device: {DEVICE}")
+print(f"Using dtype: {DTYPE}")
+
+# Verify hardware compatibility
+if DEVICE == "cuda":
+    if not torch.cuda.get_device_capability()[0] >= 9:
+        raise RuntimeError("Float8 requires NVIDIA Hopper (H100) or newer GPU architecture")
+
+# Create checkpoint directory
+os.makedirs(CHECKPOINT_DIR, exist_ok=True)
+
+# Initialize tokenizer and model
+tokenizer = AutoTokenizer.from_pretrained(
+    "vikhyatk/moondream2",
+    revision=MD_REVISION,
+    trust_remote_code=True,
+    torch_dtype=DTYPE,
+    cache_dir="./checkpoints/",
+    device_map={"": DEVICE},
+)
+
+moondream = AutoModelForCausalLM.from_pretrained(
+    "vikhyatk/moondream2",
+    revision=MD_REVISION,
+    trust_remote_code=True,
+    attn_implementation=None,
+    torch_dtype=DTYPE,
+    cache_dir="./checkpoints/",
+    device_map={"": DEVICE},
+)
+
+# LoRA Configuration
+if use_lora:
+    lora_config = LoraConfig(
+        r=64,
+        lora_alpha=32,
+        target_modules=[
+            'proj', 'fc1', 'fc2',
+            'Wqkv', 'out_proj'
+        ],
+        lora_dropout=0.1,
+        bias="lora_only",
+        task_type="CAUSAL_LM"
+    )
+    moondream = get_peft_model(moondream, lora_config)
+    moondream.print_trainable_parameters()
+
+# Initialize datasets and dataloaders
+datasets = {
+    "train": ChessDataset("train"),
+    "test": ChessDataset("test")
+}
+
+def collate_fn(batch):
+    images = [sample['image'] for sample in batch]
+    images = torch.stack(moondream.vision_encoder.preprocess(images))
+    images = rearrange(images,
+                      "b c (h p1) (w p2) -> b (h w) (c p1 p2)",
+                      p1=14,
+                      p2=14)
+
+    labels_acc = []
+    tokens_acc = []
+
+    for sample in batch:
+        toks = [tokenizer.bos_token_id]
+        labs = [-100] * (IMG_TOKENS + 1)
+
+        for qa in sample['qa']:
+            q_t = tokenizer(
+                f"\n\nQuestion: {qa['question']}\n\nAnswer:",
+                add_special_tokens=False
+            ).input_ids
+            toks.extend(q_t)
+            labs.extend([-100] * len(q_t))
+
+            a_t = tokenizer(
+                f" {qa['answer']}{ANSWER_EOS}",
+                add_special_tokens=False
+            ).input_ids
+            toks.extend(a_t)
+            labs.extend(a_t)
+
+        tokens_acc.append(toks)
+        labels_acc.append(labs)
+
+    max_len = max(len(labels) for labels in labels_acc)
+    attn_mask_acc = []
+
+    for i in range(len(batch)):
+        len_i = len(labels_acc[i])
+        pad_i = max_len - len_i
+
+        labels_acc[i].extend([-100] * pad_i)
+        tokens_acc[i].extend([tokenizer.eos_token_id] * pad_i)
+        attn_mask_acc.append([1] * len_i + [0] * pad_i)
+
+    return (
+        images,
+        torch.stack([torch.tensor(t, dtype=torch.long) for t in tokens_acc]),
+        torch.stack([torch.tensor(l, dtype=torch.long) for l in labels_acc]),
+        torch.stack([torch.tensor(a, dtype=torch.bool) for a in attn_mask_acc]),
+    )
+
+dataloaders = {
+    "train": DataLoader(
+        datasets["train"],
+        batch_size=BATCH_SIZE,
+        shuffle=True,
+        collate_fn=collate_fn,
+    ),
+    "test": DataLoader(
+        datasets["test"],
+        batch_size=BATCH_SIZE,
+        shuffle=False,
+        collate_fn=collate_fn,
+    )
+}
+
+def compute_loss(batch):
+    images, tokens, labels, attn_mask = batch
+
+    images = images.to(DEVICE, dtype=DTYPE)
+    tokens = tokens.to(DEVICE)
+    labels = labels.to(DEVICE)
+    attn_mask = attn_mask.to(DEVICE)
+
+    with torch.autocast(device_type='cuda', dtype=DTYPE):
+        img_embs = moondream.vision_encoder.encoder(images)
+        img_embs = moondream.vision_encoder.projection(img_embs)
+
+        tok_embs = moondream.text_model.get_input_embeddings()(tokens)
+        inputs_embeds = torch.cat((tok_embs[:, 0:1, :], img_embs, tok_embs[:, 1:, :]), dim=1)
+
+        outputs = moondream.text_model(
+            inputs_embeds=inputs_embeds,
+            labels=labels,
+            attention_mask=attn_mask,
+        )
+
+    return outputs.loss.requires_grad_(True)
+
+# Initialize training
+moondream.train()
+moondream.text_model.transformer.gradient_checkpointing_enable(
+    gradient_checkpointing_kwargs={"use_reentrant": True}
+)
+
+# Initialize optimizer with native PyTorch implementation
+optimizer = torch.optim.AdamW(
+    [p for p in moondream.parameters() if p.requires_grad],
+    lr=BASE_LR,
+    betas=(0.9, 0.95),
+    eps=1e-6
+)
+
+# Training loop implementation remains the same as in your original code
+# ... [rest of the training loop code remains unchanged]
+
+
+# Initialize wandb
+if USE_WANDB:
+    wandb.init(
+        project="moondream-ft",
+        config={
+            "EPOCHS": EPOCHS,
+            "BATCH_SIZE": BATCH_SIZE,
+            "GRAD_ACCUM_STEPS": GRAD_ACCUM_STEPS,
+            "BASE_LR": BASE_LR,
+            "WARMUP_STEPS": WARMUP_STEPS,
+            "MAX_GRAD_NORM": MAX_GRAD_NORM,
+            "use_4bit": use_4bit,
+            "use_lora": use_lora,
+            "lora_config": lora_config.__dict__ if use_lora else None,
+        }
+    )
+
+# Training loop
+global_step = 0
+best_val_loss = float('inf')
+
+for epoch in range(EPOCHS):
+    moondream.train()
+    
+    for batch_idx, batch in enumerate(tqdm(dataloaders["train"], desc=f"Epoch {epoch + 1}/{EPOCHS}")):
+        loss = compute_loss(batch)
+        loss = loss / GRAD_ACCUM_STEPS
+        loss.backward()
+        
+        if (batch_idx + 1) % GRAD_ACCUM_STEPS == 0:
+            # Gradient clipping
+            torch.nn.utils.clip_grad_norm_(lora_params, MAX_GRAD_NORM)
+            
+            # Update weights
+            optimizer.step()
+            optimizer.zero_grad()
+            
+            # Update learning rate
+            lr = BASE_LR * lr_schedule(global_step, total_steps) * LR_scaling
+            for param_group in optimizer.param_groups:
+                param_group['lr'] = lr
+            
+            global_step += 1
+            
+            # Log training metrics
+            if USE_WANDB:
+                wandb.log({
+                    "loss/train": loss.item() * GRAD_ACCUM_STEPS,
+                    "lr": lr,
+                    "epoch": epoch,
+                    "global_step": global_step,
+                })
+            
+            # Evaluation
+            if global_step % eval_steps == 0 and USE_WANDB:
+                moondream.eval()
+                val_loss = 0
+                with torch.no_grad():
+                    for val_batch in tqdm(dataloaders["test"], desc="Validation"):
+                        val_loss += compute_loss(val_batch).item()
+                val_loss /= len(dataloaders["test"])
+                print(f"Validation Loss at step {global_step}: {val_loss}")
+
+                
+                if USE_WANDB:
+                    wandb.log({
+                        "loss/val": val_loss,
+                        "global_step": global_step,
+                    })
+                
+                # Save best model
+                if val_loss < best_val_loss:
+                    best_val_loss = val_loss
+                    peft_model_state_dict = get_peft_model_state_dict(moondream)
+                    torch.save(
+                        peft_model_state_dict,
+                        os.path.join(CHECKPOINT_DIR, "best_model.pt")
+                    )
+                
+                # Regular checkpoint saving
+                if global_step % SAVE_STEPS == 0:
+                    peft_model_state_dict = get_peft_model_state_dict(moondream)
+                    torch.save(
+                        peft_model_state_dict,
+                        os.path.join(CHECKPOINT_DIR, f"checkpoint-{global_step}.pt")
+                    )
+                
+                moondream.train()
+
+# Save final model
+peft_model_state_dict = get_peft_model_state_dict(moondream)
+torch.save(
+    peft_model_state_dict,
+    os.path.join(CHECKPOINT_DIR, "final_model.pt")
+)
+
+if USE_WANDB:
+    wandb.finish()
