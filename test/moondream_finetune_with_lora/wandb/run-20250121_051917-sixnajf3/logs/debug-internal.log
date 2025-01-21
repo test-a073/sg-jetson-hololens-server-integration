@@ -1,0 +1,16 @@
+{"time":"2025-01-21T05:19:17.799204072Z","level":"INFO","msg":"stream: starting","core version":"0.19.2","symlink path":"/home/integration/test/moondream_finetune_with_lora/wandb/run-20250121_051917-sixnajf3/logs/debug-core.log"}
+{"time":"2025-01-21T05:19:17.900301952Z","level":"INFO","msg":"created new stream","id":"sixnajf3"}
+{"time":"2025-01-21T05:19:17.900312908Z","level":"INFO","msg":"stream: started","id":"sixnajf3"}
+{"time":"2025-01-21T05:19:17.900369458Z","level":"INFO","msg":"writer: Do: started","stream_id":"sixnajf3"}
+{"time":"2025-01-21T05:19:17.900395069Z","level":"INFO","msg":"handler: started","stream_id":"sixnajf3"}
+{"time":"2025-01-21T05:19:17.90041692Z","level":"INFO","msg":"sender: started","stream_id":"sixnajf3"}
+{"time":"2025-01-21T05:19:18.23170102Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-21T05:21:01.977010639Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-21T05:21:01.977413772Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-21T05:21:02.97751429Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading config.yaml","runtime_seconds":0.261663665,"progress":"1.7KB/1.7KB"}],"total_operations":1}}
+{"time":"2025-01-21T05:21:03.031837072Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-21T05:21:04.289400801Z","level":"INFO","msg":"stream: closing","id":"sixnajf3"}
+{"time":"2025-01-21T05:21:04.289409724Z","level":"INFO","msg":"handler: closed","stream_id":"sixnajf3"}
+{"time":"2025-01-21T05:21:04.289414407Z","level":"INFO","msg":"writer: Close: closed","stream_id":"sixnajf3"}
+{"time":"2025-01-21T05:21:04.289433294Z","level":"INFO","msg":"sender: closed","stream_id":"sixnajf3"}
+{"time":"2025-01-21T05:21:04.289447616Z","level":"INFO","msg":"stream: closed","id":"sixnajf3"}

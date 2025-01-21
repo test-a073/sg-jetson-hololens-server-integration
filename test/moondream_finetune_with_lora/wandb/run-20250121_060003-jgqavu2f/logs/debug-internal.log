@@ -1,0 +1,16 @@
+{"time":"2025-01-21T06:00:03.72465278Z","level":"INFO","msg":"stream: starting","core version":"0.19.2","symlink path":"/home/integration/test/moondream_finetune_with_lora/wandb/run-20250121_060003-jgqavu2f/logs/debug-core.log"}
+{"time":"2025-01-21T06:00:03.826184911Z","level":"INFO","msg":"created new stream","id":"jgqavu2f"}
+{"time":"2025-01-21T06:00:03.826193698Z","level":"INFO","msg":"stream: started","id":"jgqavu2f"}
+{"time":"2025-01-21T06:00:03.826291302Z","level":"INFO","msg":"writer: Do: started","stream_id":"jgqavu2f"}
+{"time":"2025-01-21T06:00:03.826294397Z","level":"INFO","msg":"sender: started","stream_id":"jgqavu2f"}
+{"time":"2025-01-21T06:00:03.826359189Z","level":"INFO","msg":"handler: started","stream_id":"jgqavu2f"}
+{"time":"2025-01-21T06:00:04.164581626Z","level":"INFO","msg":"Starting system monitor"}
+{"time":"2025-01-21T06:04:24.17676547Z","level":"INFO","msg":"Stopping system monitor"}
+{"time":"2025-01-21T06:04:24.177002971Z","level":"INFO","msg":"Stopped system monitor"}
+{"time":"2025-01-21T06:04:25.177267197Z","level":"INFO","msg":"handler: operation stats","stats":{"operations":[{"desc":"uploading wandb-summary.json","runtime_seconds":0.467564245,"progress":"216B/216B"},{"desc":"uploading config.yaml","runtime_seconds":0.224812111,"progress":"1.7KB/1.7KB"}],"total_operations":2}}
+{"time":"2025-01-21T06:04:25.973729861Z","level":"INFO","msg":"fileTransfer: Close: file transfer manager closed"}
+{"time":"2025-01-21T06:04:27.272477608Z","level":"INFO","msg":"stream: closing","id":"jgqavu2f"}
+{"time":"2025-01-21T06:04:27.27248952Z","level":"INFO","msg":"handler: closed","stream_id":"jgqavu2f"}
+{"time":"2025-01-21T06:04:27.272495993Z","level":"INFO","msg":"writer: Close: closed","stream_id":"jgqavu2f"}
+{"time":"2025-01-21T06:04:27.272549182Z","level":"INFO","msg":"sender: closed","stream_id":"jgqavu2f"}
+{"time":"2025-01-21T06:04:27.27255628Z","level":"INFO","msg":"stream: closed","id":"jgqavu2f"}

@@ -1,19 +1,20 @@
 # finetune_moondream_with_lora_and_adam8bit_optimization.py
-
+# without 4bit
 
 import os 
 import torch 
 import math
 import wandb
-import getpass
 from tqdm import tqdm
 from einops import rearrange
 from torch.utils.data import Dataset, DataLoader
 from datasets import load_dataset 
-from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from peft import LoraConfig, get_peft_model, get_peft_model_state_dict, prepare_model_for_kbit_training
-from bitsandbytes.optim import Adam8bit
+from transformers import AutoTokenizer, AutoModelForCausalLM
+from peft import LoraConfig, get_peft_model, get_peft_model_state_dict
+import torch.optim as optim
+import time
 
+start_time = time.time()
 # Environment settings
 os.environ["WANDB_SILENT"] = "false"
 os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
@@ -44,7 +45,7 @@ class ChessDataset(Dataset):
 DEVICE = "cuda" if torch.cuda.is_available() else "cpu"
 DTYPE = torch.float32
 MD_REVISION = "2024-04-02"
-use_4bit = False
+
 use_lora = True
 set_other_trainable = True
 
@@ -67,14 +68,7 @@ os.makedirs(CHECKPOINT_DIR, exist_ok=True)
 
 # Quantization configuration
 quantization_config = None
-if use_4bit:
-    bnb_config = BitsAndBytesConfig(
-        load_in_4bit=True,
-        bnb_4bit_use_double_quant=True,
-        bnb_4bit_quant_type="nf4",
-        bnb_4bit_compute_dtype=DTYPE
-    )
-    quantization_config = bnb_config
+
 
 # Initialize tokenizer and model
 tokenizer = AutoTokenizer.from_pretrained(
@@ -97,19 +91,33 @@ moondream = AutoModelForCausalLM.from_pretrained(
     quantization_config=quantization_config
 )
 
-# Prepare model for 4-bit training if needed
-if use_4bit:
-    moondream.gradient_checkpointing_enable()
-    moondream = prepare_model_for_kbit_training(moondream)
 
 # LoRA Configuration
 if use_lora:
     lora_config = LoraConfig(
-        r=64,
+        r=4,
         lora_alpha=32,
         target_modules=[
-            'proj', 'fc1', 'fc2',
-            'Wqkv', 'out_proj'
+            # Text Encoder 
+            # 'Wqkv',
+            # 'out_proj',
+            'fc1',
+            'fc2',
+
+            # # Vision Encoder
+            # 'qkv',
+            # 'proj',
+            # 'fc1',
+            # 'fc2'
+
+            # Can I use the class name instead of the class attribute as the string for lora (no it doesn't work)
+            
+            # ValueError: Target module MLP(
+            # (fc1): Linear(in_features=1152, out_features=4304, bias=True)
+            # (act): GELU(approximate='tanh')
+            # (fc2): Linear(in_features=4304, out_features=1152, bias=True)
+            # ) is not supported. Currently, only the following modules are supported: `torch.nn.Linear`, `torch.nn.Embedding`, `torch.nn.Conv2d`, `torch.nn.Conv3d`, `transformers.pytorch_utils.Conv1D`.
+
         ],
         lora_dropout=0.1,
         bias="lora_only",
@@ -264,7 +272,7 @@ if use_lora:
 else:
     LR_scaling = 1.0
 
-optimizer = Adam8bit(
+optimizer = optim.Adam(
     [{"params": lora_params}],
     lr=BASE_LR,
     betas=(0.9, 0.95),
@@ -274,7 +282,9 @@ optimizer = Adam8bit(
 # Initialize wandb
 if USE_WANDB:
     wandb.init(
-        project="moondream-ft",
+        # Add a description to the run 
+        notes="Fine-tuning Moondream with ALL params LoRA std Adam Optim workstation",
+        project="moondream-ft-lora",
         config={
             "EPOCHS": EPOCHS,
             "BATCH_SIZE": BATCH_SIZE,
@@ -282,7 +292,7 @@ if USE_WANDB:
             "BASE_LR": BASE_LR,
             "WARMUP_STEPS": WARMUP_STEPS,
             "MAX_GRAD_NORM": MAX_GRAD_NORM,
-            "use_4bit": use_4bit,
+            "use_4bit": None,
             "use_lora": use_lora,
             "lora_config": lora_config.__dict__ if use_lora else None,
         }
@@ -369,3 +379,5 @@ torch.save(
 
 if USE_WANDB:
     wandb.finish()
+
+print(f"Training took {time.time() - start_time:.4f} seconds")
