@@ -18,6 +18,8 @@ start_time = time.time()
 # Environment settings
 os.environ["WANDB_SILENT"] = "false"
 os.environ["HF_HUB_ENABLE_HF_TRANSFER"] = "1"
+# Set the cache path to "data/"
+os.environ["HF_DATASETS_CACHE"] = "data/"
 
 class ChessDataset(Dataset):
     def __init__(self, split="train"):
@@ -295,6 +297,7 @@ if USE_WANDB:
             "use_4bit": None,
             "use_lora": use_lora,
             "lora_config": lora_config.__dict__ if use_lora else None,
+            "moondream_version": MD_REVISION,
         }
     )
 
