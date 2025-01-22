@@ -1,3 +1,6 @@
+# This is a Flask server that receives a query prompt and an image, sends it to the Ollama API 
+# (llama3.2-vision model), and returns the response.
+
 from flask import Flask, request, jsonify
 import ollama
 import os

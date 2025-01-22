@@ -1,3 +1,7 @@
+## Flask server for Moondream full fine-tuning with Llama3.2-vision
+# saves the incoming data as a dataset  
+
+
 import os
 import sys
 from pathlib import Path
@@ -44,10 +48,11 @@ IMG_TOKENS = 729
 
 # Create necessary directories
 UPLOAD_FOLDER = os.path.join(SCRIPT_DIR, 'tmp')
-SAVE_FOLDER = os.path.join(SCRIPT_DIR, 'sasika_save')
+SAVE_FOLDER = os.path.join(SCRIPT_DIR, 'saved_dataset')
 CHECKPOINT_FOLDER = os.path.join(SCRIPT_DIR, 'checkpoints')
+CACHE_FOLDER = os.path.join(SCRIPT_DIR, 'cache')
 
-for folder in [UPLOAD_FOLDER, SAVE_FOLDER, CHECKPOINT_FOLDER]:
+for folder in [UPLOAD_FOLDER, SAVE_FOLDER, CHECKPOINT_FOLDER, CACHE_FOLDER]:
     os.makedirs(folder, exist_ok=True)
 
 class HololensDataset(Dataset):
@@ -79,14 +84,19 @@ def lr_schedule(step, max_steps):
 
 def initialize_model():
     logger.info("Initializing model...")
-    tokenizer = AutoTokenizer.from_pretrained("vikhyatk/moondream2", revision=MD_REVISION)
+    tokenizer = AutoTokenizer.from_pretrained(
+        "vikhyatk/moondream2", 
+        revision=MD_REVISION,
+        cache_dir=CACHE_FOLDER
+        )
     moondream = AutoModelForCausalLM.from_pretrained(
         "vikhyatk/moondream2",
         revision=MD_REVISION,
         trust_remote_code=True,
         attn_implementation="flash_attention_2" if DEVICE == "cuda" else None,
         torch_dtype=DTYPE,
-        device_map={"": DEVICE}
+        device_map={"": DEVICE},
+        cache_dir=CACHE_FOLDER
     )
     moondream.text_model.eval()
     moondream.vision_encoder.eval()
