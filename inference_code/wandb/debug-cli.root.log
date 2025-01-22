@@ -1,6 +1,0 @@
-2025-01-13 12:08:49 ERROR git root error: Cmd('git') failed due to: exit code(128)
-  cmdline: git rev-parse --show-toplevel
-  stderr: 'fatal: detected dubious ownership in repository at '/home/integration'
-To add an exception for this directory, call:
-
-	git config --global --add safe.directory /home/integration'

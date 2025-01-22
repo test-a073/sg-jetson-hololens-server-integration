@@ -5,3 +5,15 @@ checkpoints
 /home/sasikayw/Desktop/integration/test/moondream_finetune_with_lora/wandb/*
 *.wandb
 test/moondream_finetune_with_lora/data/*
+
+# Add all wandb folderes in each subfolder
+**/wandb/*
+
+# Add all checkpoints in each subfolder
+**/checkpoints/*
+
+# Add all data in each subfolder
+**/data/*
+
+# Add all pycache in each subfolder
+**/__pycache__/*

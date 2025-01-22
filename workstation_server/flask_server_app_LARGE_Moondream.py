@@ -7,7 +7,7 @@ import requests
 from PIL import Image
 from torch.utils.data import Dataset, DataLoader
 from transformers import AutoTokenizer, AutoModelForCausalLM
-from bitsandbytes.optim import Adam8bit
+from torch.optim import Adam
 import torch
 import math
 from einops import rearrange
@@ -327,7 +327,7 @@ if __name__ == "__main__":
         tokenizer, moondream = initialize_model()
         
         # Initialize optimizer
-        optimizer = Adam8bit(
+        optimizer = Adam(
             [{"params": moondream.text_model.parameters()}],
             lr=LR * 0.1,
             betas=(0.9, 0.95),
