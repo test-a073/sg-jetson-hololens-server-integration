@@ -7,3 +7,6 @@ checkpoints
 test/moondream_finetune_with_lora/data/*
 **/cache/*
 **/__pycache__/*
+
+# .bin files in all the directoris and subdirectories
+*.bin
